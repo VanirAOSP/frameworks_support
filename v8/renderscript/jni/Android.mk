@@ -21,6 +21,7 @@ LOCAL_C_INCLUDES += \
 	frameworks/rs \
 	$(rs_generated_include_dir)
 
+LOCAL_CFLAGS := $(call-cc-cpp-option,-Qunused-arguments)
 LOCAL_CFLAGS += -Wno-unused-parameter -U_FORTIFY_SOURCE
 
 LOCAL_ADDITIONAL_DEPENDENCIES := $(addprefix $(rs_generated_include_dir)/,rsgApiFuncDecl.h)
