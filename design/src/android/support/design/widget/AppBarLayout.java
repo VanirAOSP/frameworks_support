@@ -410,7 +410,7 @@ public class AppBarLayout extends LinearLayout {
                     // For a collapsing exit scroll, we to take the collapsed height into account.
                     // We also break the range straight away since later views can't scroll
                     // beneath us
-                    range = mDownScrollRange = ViewCompat.getMinimumHeight(child)) + getTopInset();
+                    range -= ViewCompat.getMinimumHeight(child) + getTopInset();
                     break;
                 }
             } else {
@@ -1164,7 +1164,7 @@ public class AppBarLayout extends LinearLayout {
         }
 
         @Override
-        public boolean onLayoutChild(CoordinatorLayout parent, final View child, int layoutDirection) {
+        public boolean onLayoutChild(CoordinatorLayout parent, View child, int layoutDirection) {
             // First lay out the child as normal
             super.onLayoutChild(parent, child, layoutDirection);
 
