@@ -21,9 +21,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.v7.testutils.AppCompatTintableViewActions.setBackgroundResource;
 import static android.support.v7.testutils.AppCompatTintableViewActions.setBackgroundTintList;
 import static android.support.v7.testutils.AppCompatTintableViewActions.setBackgroundTintMode;
-import static android.support.v7.testutils.AppCompatTintableViewActions.setEnabled;
 import static android.support.v7.testutils.TestUtilsActions.setBackgroundTintListViewCompat;
 import static android.support.v7.testutils.TestUtilsActions.setBackgroundTintModeViewCompat;
+import static android.support.v7.testutils.TestUtilsActions.setEnabled;
 import static android.support.v7.testutils.TestUtilsMatchers.isBackground;
 
 import static org.junit.Assert.assertNull;
@@ -35,6 +35,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.test.filters.SmallTest;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v7.app.BaseInstrumentationTestCase;
@@ -42,7 +43,6 @@ import android.support.v7.appcompat.test.R;
 import android.support.v7.testutils.AppCompatTintableViewActions;
 import android.support.v7.testutils.BaseTestActivity;
 import android.support.v7.testutils.TestUtils;
-import android.test.suitebuilder.annotation.SmallTest;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -59,6 +59,7 @@ public abstract class AppCompatBaseViewTest<A extends BaseTestActivity, T extend
         extends BaseInstrumentationTestCase<A> {
     protected ViewGroup mContainer;
 
+    protected A mActivity;
     protected Resources mResources;
 
     public AppCompatBaseViewTest(Class clazz) {
@@ -67,9 +68,9 @@ public abstract class AppCompatBaseViewTest<A extends BaseTestActivity, T extend
 
     @Before
     public void setUp() {
-        final A activity = mActivityTestRule.getActivity();
-        mContainer = (ViewGroup) activity.findViewById(R.id.container);
-        mResources = activity.getResources();
+        mActivity = mActivityTestRule.getActivity();
+        mContainer = mActivity.findViewById(R.id.container);
+        mResources = mActivity.getResources();
     }
 
     /**
@@ -219,8 +220,7 @@ public abstract class AppCompatBaseViewTest<A extends BaseTestActivity, T extend
         // switched to the matching entry in newly set color state list.
         final ColorStateList sandColor = ResourcesCompat.getColorStateList(
                 mResources, R.color.color_state_list_sand, null);
-        onView(withId(viewId)).perform(
-                setBackgroundTintList(sandColor));
+        onView(withId(viewId)).perform(setBackgroundTintList(sandColor));
         verifyBackgroundIsColoredAs("New sand tinting in enabled state", view,
                 sandDefault, 0);
 

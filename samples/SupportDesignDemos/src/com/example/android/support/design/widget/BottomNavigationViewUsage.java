@@ -38,9 +38,9 @@ public class BottomNavigationViewUsage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.design_bottom_navigation_view);
-        Button buttonDisable = (Button) findViewById(R.id.button_disable);
+        Button buttonDisable = findViewById(R.id.button_disable);
         final BottomNavigationView bottom =
-                (BottomNavigationView) findViewById(R.id.bottom_navigation);
+                findViewById(R.id.bottom_navigation);
         mOriginalTint = bottom.getItemIconTintList();
         buttonDisable.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,24 +48,26 @@ public class BottomNavigationViewUsage extends AppCompatActivity {
                 bottom.getMenu().getItem(0).setEnabled(!bottom.getMenu().getItem(0).isEnabled());
             }
         });
-        Button buttonAdd = (Button) findViewById(R.id.button_add);
+        Button buttonAdd = findViewById(R.id.button_add);
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (bottom.getMenu().size() < 5) {
+                if (bottom.getMenu().size() < bottom.getMaxItemCount()) {
                     MenuItem item = bottom.getMenu().add("Bananas");
                     item.setIcon(android.R.drawable.ic_lock_power_off);
                 }
             }
         });
-        Button buttonRemove = (Button) findViewById(R.id.button_remove);
+        Button buttonRemove = findViewById(R.id.button_remove);
         buttonRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bottom.getMenu().removeItem(0);
+                if (bottom.getMenu().size() > 0) {
+                    bottom.getMenu().removeItem(bottom.getMenu().getItem(0).getItemId());
+                }
             }
         });
-        Button buttonTint = (Button) findViewById(R.id.button_tint);
+        Button buttonTint = findViewById(R.id.button_tint);
         buttonTint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,21 +78,26 @@ public class BottomNavigationViewUsage extends AppCompatActivity {
                 }
             }
         });
-        Button buttonNext = (Button) findViewById(R.id.button_select_next);
+        Button buttonNext = findViewById(R.id.button_select_next);
         buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final int menuSize = bottom.getMenu().size();
+                if (menuSize < 1) {
+                    return;
+                }
                 int currentlySelected = 0;
                 for (int i = 0; i < menuSize; i++) {
                     if (bottom.getMenu().getItem(i).isChecked()) {
                         currentlySelected = i;
+                        break;
                     }
                 }
-                bottom.getMenu().getItem((currentlySelected + 1) % menuSize).setChecked(true);
+                int next = (currentlySelected + 1) % menuSize;
+                bottom.setSelectedItemId(bottom.getMenu().getItem(next).getItemId());
             }
         });
-        final TextView selectedItem = (TextView) findViewById(R.id.selected_item);
+        final TextView selectedItem = findViewById(R.id.selected_item);
         bottom.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -109,6 +116,13 @@ public class BottomNavigationViewUsage extends AppCompatActivity {
                                 selectedItem.setText("Selected " + item.getTitle());
                         }
                         return true;
+                    }
+                });
+        bottom.setOnNavigationItemReselectedListener(
+                new BottomNavigationView.OnNavigationItemReselectedListener() {
+                    @Override
+                    public void onNavigationItemReselected(@NonNull MenuItem item) {
+                        selectedItem.setText("Reselected " + item.getTitle());
                     }
                 });
     }

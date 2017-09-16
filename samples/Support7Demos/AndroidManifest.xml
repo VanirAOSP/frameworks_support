@@ -254,6 +254,24 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".app.AppCompatWidgetsTextViews"
+                  android:label="@string/appcompat_widgets_text_views"
+                  android:theme="@style/Theme.Custom.TextLink">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="com.example.android.supportv7.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".app.MenuItemIconTinting"
+                  android:label="@string/menu_item_icon_tinting"
+                  android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="com.example.android.supportv7.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".app.ToolbarUsage"
                   android:label="@string/toolbar_usage"
                   android:theme="@style/Theme.Custom.NoActionBar">
@@ -370,6 +388,15 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".widget.PagerRecyclerViewActivity"
+                  android:label="@string/pager_recycler_view"
+                  android:theme="@style/Theme.AppCompat">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="com.example.android.supportv7.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".widget.AnimatedRecyclerView"
                   android:label="@string/animated_recycler_view"
                   android:theme="@style/Theme.AppCompat">
@@ -409,6 +436,15 @@
         <activity android:name=".util.SortedListActivity"
                   android:label="@string/sorted_list_activity"
                   android:windowSoftInputMode="adjustResize"
+                  android:theme="@style/Theme.AppCompat">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="com.example.android.supportv7.SAMPLE_CODE" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".widget.StableIdActivity"
+                  android:label="@string/recycler_view"
                   android:theme="@style/Theme.AppCompat">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -513,6 +549,16 @@
         <!-- PopupMenu demo activity -->
         <activity android:name=".widget.PopupMenuActivity"
                   android:label="@string/popup_menu_activity"
+                  android:theme="@style/Theme.AppCompat.Light">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="com.example.android.supportv7.SAMPLE_CODE"/>
+            </intent-filter>
+        </activity>
+
+        <!-- ListView styling activity -->
+        <activity android:name=".widget.ListViewActivity"
+                  android:label="@string/list_view_activity"
                   android:theme="@style/Theme.AppCompat.Light">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

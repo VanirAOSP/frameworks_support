@@ -1,3 +1,4 @@
+// CHECKSTYLE:OFF Generated code
 /* This file is auto-generated from BrowseTestFragment.java.  DO NOT MODIFY. */
 
 /*
@@ -15,6 +16,13 @@
  */
 package android.support.v17.leanback.app;
 
+import static android.support.v17.leanback.app.BrowseSupportFragmentTestActivity.EXTRA_HEADERS_STATE;
+import static android.support.v17.leanback.app.BrowseSupportFragmentTestActivity.EXTRA_LOAD_DATA_DELAY;
+import static android.support.v17.leanback.app.BrowseSupportFragmentTestActivity.EXTRA_NUM_ROWS;
+import static android.support.v17.leanback.app.BrowseSupportFragmentTestActivity.EXTRA_REPEAT_PER_ROW;
+import static android.support.v17.leanback.app.BrowseSupportFragmentTestActivity.EXTRA_SET_ADAPTER_AFTER_DATA_LOAD;
+import static android.support.v17.leanback.app.BrowseSupportFragmentTestActivity.EXTRA_TEST_ENTRANCE_TRANSITION;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
@@ -30,11 +38,6 @@ import android.support.v17.leanback.widget.VerticalGridView;
 import android.util.Log;
 import android.view.View;
 
-import static android.support.v17.leanback.app.BrowseSupportFragmentTestActivity.*;
-
-/**
- * @hide from javadoc
- */
 public class BrowseTestSupportFragment extends BrowseSupportFragment {
     private static final String TAG = "BrowseTestSupportFragment";
 
@@ -52,6 +55,8 @@ public class BrowseTestSupportFragment extends BrowseSupportFragment {
 
     int NUM_ROWS;
     int REPEAT_PER_ROW;
+    boolean mEntranceTransitionStarted;
+    boolean mEntranceTransitionEnded;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,7 +81,7 @@ public class BrowseTestSupportFragment extends BrowseSupportFragment {
         }
 
         setTitle("BrowseTestSupportFragment");
-        setHeadersState(HEADERS_ENABLED);
+        setHeadersState(arguments.getInt(EXTRA_HEADERS_STATE, HEADERS_ENABLED));
 
         setOnSearchClickedListener(new View.OnClickListener() {
             @Override
@@ -90,7 +95,9 @@ public class BrowseTestSupportFragment extends BrowseSupportFragment {
             @Override
             public void onItemSelected(Presenter.ViewHolder itemViewHolder, Object item,
                     RowPresenter.ViewHolder rowViewHolder, Row row) {
-                Log.i(TAG, "onItemSelected: " + item + " row " + row);
+                Log.i(TAG, "onItemSelected: " + item + " row " + row.getHeaderItem().getName()
+                        + " " + rowViewHolder
+                        + " " + ((ListRowPresenter.ViewHolder) rowViewHolder).getGridView());
             }
         });
         if (TEST_ENTRANCE_TRANSITION) {
@@ -123,18 +130,31 @@ public class BrowseTestSupportFragment extends BrowseSupportFragment {
         setAdapter(mRowsAdapter);
     }
 
+    @Override
+    protected void onEntranceTransitionStart() {
+        super.onEntranceTransitionStart();
+        mEntranceTransitionStarted = true;
+    }
+
+    @Override
+    protected void onEntranceTransitionEnd() {
+        super.onEntranceTransitionEnd();
+        mEntranceTransitionEnded = true;
+    }
+
     private void loadData() {
         for (int i = 0; i < NUM_ROWS; ++i) {
             ArrayObjectAdapter listRowAdapter = new ArrayObjectAdapter(sCardPresenter);
+            int index = 0;
             for (int j = 0; j < REPEAT_PER_ROW; ++j) {
-                listRowAdapter.add("Hello world");
-                listRowAdapter.add("This is a test");
-                listRowAdapter.add("Android TV");
-                listRowAdapter.add("Leanback");
-                listRowAdapter.add("Hello world");
-                listRowAdapter.add("Android TV");
-                listRowAdapter.add("Leanback");
-                listRowAdapter.add("GuidedStepFragment");
+                listRowAdapter.add("Hello world-" + (index++));
+                listRowAdapter.add("This is a test-" + (index++));
+                listRowAdapter.add("Android TV-" + (index++));
+                listRowAdapter.add("Leanback-" + (index++));
+                listRowAdapter.add("Hello world-" + (index++));
+                listRowAdapter.add("Android TV-" + (index++));
+                listRowAdapter.add("Leanback-" + (index++));
+                listRowAdapter.add("GuidedStepSupportFragment-" + (index++));
             }
             HeaderItem header = new HeaderItem(i, "Row " + i);
             mRowsAdapter.add(new ListRow(header, listRowAdapter));
